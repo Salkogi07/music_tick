@@ -21,7 +21,20 @@ public class NoteObject : MonoBehaviour
             {
                 gameObject.SetActive(false);
 
-                GameManager.instance.NoteHit();
+                //GameManager.instance.NoteHit();
+
+                if (Mathf.Abs(transform.position.y) > 0.25)
+                {
+                    GameManager.instance.NormalHit();
+                }
+                else if (Mathf.Abs(transform.position.y) > 0.05f)
+                {
+                    GameManager.instance.GoodHit();
+                }
+                else
+                {
+                    GameManager.instance.PerfectHit();
+                }
             }
         }
     }
@@ -36,11 +49,13 @@ public class NoteObject : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if(other.tag == "Activator")
+        if (other.tag == "Activator")
         {
-            canBePressed = false;
-
-            GameManager.instance.NoteMissed();
+            if (gameObject.activeSelf == true)
+            {
+                GameManager.instance.NoteMissed();
+                canBePressed = false;
+            }          
         }
     }
 }
