@@ -25,12 +25,20 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text multiText;
 
+    public float totalNotes;
+    public float normalHits;
+    public float goodHits;
+    public float perfectHits;
+    public float missedHits;
+
     void Start()
     {
         instance = this;
 
         scoreText.text = "Score: 0";
         currentMultiplier = 1;
+
+        totalNotes = FindObjectsOfType<NoteObject>().Length;
     }
 
     void Update()
@@ -72,18 +80,24 @@ public class GameManager : MonoBehaviour
     {
         currentScore += scorePerNote * currentMultiplier;
         NoteHit();
+
+        normalHits++;
     }
 
     public void GoodHit()
     {
         currentScore += scorePerGoodNote * currentMultiplier;
         NoteHit();
+
+        goodHits++;
     }
 
     public void PerfectHit()
     {
         currentScore += scorePerPerfectNote * currentMultiplier;
         NoteHit();
+
+        perfectHits++;
     }
 
     public void NoteMissed()
@@ -94,5 +108,7 @@ public class GameManager : MonoBehaviour
         multiplierTracker = 0;
 
         multiText.text = "Multiplier: x" + currentMultiplier;
+
+        missedHits++;
     }
 }
