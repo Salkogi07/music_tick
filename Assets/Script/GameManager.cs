@@ -16,12 +16,19 @@ public class GameManager : MonoBehaviour
     public int currentScore;
     public int scorePerNote = 100;
 
+    public int currentMultiplier;
+    public int multiplierTracker;
+    public int[] multiplierThresholds;
+
     public Text scoreText;
     public Text multiText;
 
     void Start()
     {
         instance = this;
+
+        scoreText.text = "Score: 0";
+        currentMultiplier = 1;
     }
 
     void Update()
@@ -42,7 +49,19 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Hit On Time");
 
-        currentScore += scorePerNote;
+        if(currentMultiplier -1 < multiplierThresholds.Length)
+        {
+            multiplierTracker++;
+            if (multiplierThresholds[currentMultiplier -1] <= multiplierTracker)
+            {
+                multiplierTracker = 0;
+                currentMultiplier++;
+            }
+        }
+
+        multiText.text = "Multiplier: x" + currentMultiplier;
+
+        currentScore += scorePerNote * currentMultiplier;
         scoreText.text = "Score: " + currentScore;
     }
 
